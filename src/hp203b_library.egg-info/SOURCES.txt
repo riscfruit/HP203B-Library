@@ -1,0 +1,9 @@
+LICENSE
+README.md
+pyproject.toml
+src/hp203b-library/__init__.py
+src/hp203b-library/hp203b.py
+src/hp203b_library.egg-info/PKG-INFO
+src/hp203b_library.egg-info/SOURCES.txt
+src/hp203b_library.egg-info/dependency_links.txt
+src/hp203b_library.egg-info/top_level.txt

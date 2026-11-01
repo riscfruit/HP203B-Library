@@ -13,9 +13,13 @@ classifiers = [
     "Topic :: System :: Hardware",
     "Programming Language :: Python :: 3",
 ]
-license = "GPL 3.0"
+license = "GPL-3.0-or-later"
 license-files = ["LICEN[CS]E*"]
 
 [project.urls]
 Homepage = "https://github.com/riscfruit/HP203B-Library"
 Issues = "https://github.com/riscfruit/HP203B-Library/issues"
+
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
