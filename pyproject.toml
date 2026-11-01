@@ -1,0 +1,21 @@
+[project]
+name = "hp203b-library"
+version = "1.0.0"
+authors = [
+  { name="Tan Siret Akinci", email="tan@riscfruit.com" },
+]
+description = "MicroPython library for HP203B barometric pressure sensor"
+readme = "README.md"
+classifiers = [
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Embedded Systems",
+    "Topic :: System :: Hardware",
+    "Programming Language :: Python :: 3",
+]
+license = "GPL 3.0"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/riscfruit/HP203B-Library"
+Issues = "https://github.com/riscfruit/HP203B-Library/issues"
