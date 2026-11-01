@@ -7,7 +7,6 @@ Licensed under GPL-3.0
 Copyright (c) 2026, Riscfruit Laboratory
 All rights reserved.
 """
-
 import time
 from machine import I2C, Pin
 
@@ -43,6 +42,7 @@ _CMD_WRITE_REG = 0xC0
 
 class HP203BError(OSError):
     # Raised when the sensor cannot be reached even after all recovery steps.
+    pass
 
 
 def _u20(b, o):
@@ -58,9 +58,8 @@ class HP203B:
     def __init__(self, i2c=None, sda=None, scl=None, i2c_id=1, freq=100000,
                  addr=None, osr=OSR_4096, retries=5, timeout_us=100000,
                  reset=True):
-        # Fill i2c (channel), sda, scl or it auto-detecs
+        # i2c channel, sda/scl pin numbers = None auto detects
         # addr=None auto-detects 0x76 (CSB low) or 0x77 (CSB high).
-    
         self._sda = sda
         self._scl = scl
         self._id = i2c_id
@@ -195,6 +194,9 @@ class HP203B:
 
     def reset(self):
         # Soft reset, then wait a fixed time.
+        # Deliberately does NOT poll a status register afterwards: on the tested
+        # hardware, a register read right before an ADC_CVT command left the chip
+        # hanging the next transfer (ETIMEDOUT). Plain waiting is reliable.
         self._retry(lambda: self.i2c.writeto(self.addr, bytes([_CMD_SOFT_RST])))
         time.sleep_ms(50)
 
@@ -222,7 +224,7 @@ class HP203B:
         return self._retry(go)
 
     def temperature(self):
-        # Temperature in degrees Celsius."""
+        # Temperature in degrees Celsius.
         d = self._measure(CH_T, _CMD_READ_T, 3)
         return _s20(d, 0) / 100.0
 
@@ -269,7 +271,8 @@ def diagnose(sda=26, scl=27, i2c_id=1, freq=100000):
     try:
         dev = HP203B(sda=sda, scl=scl, i2c_id=i2c_id, freq=freq, reset=False, retries=2)
     except OSError as e:
-        print("No sensor found")
+        print("No HP203B found:", e)
+        print("Check: 3.3V power, common GND, SDA/SCL not swapped, 4.7k pull-ups, CSB pin.")
         return
     print("Found HP203B at 0x%02X" % dev.addr)
     try:
@@ -278,4 +281,5 @@ def diagnose(sda=26, scl=27, i2c_id=1, freq=100000):
         print("Read OK: %.2f C, %.2f hPa (read style: %s)"
               % (t, p, "repeated START" if dev._rs else "STOP+START"))
     except OSError as e:
-        print("Sensor is on the bus but measurement failed:", e)
+        print("Device is on the bus but measurement failed:", e)
+
