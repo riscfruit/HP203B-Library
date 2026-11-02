@@ -2,6 +2,8 @@
 hp203b.py - MicroPython library for HP203B barometric pressure sensor.
 Intended for use with Riscfruit Pico2 Expansion Card to control HP203B sensor module.
 
+Author: Tan Siret Akinci, with help from generative AI tools
+
 Licensed under GPL-3.0
 
 Copyright (c) 2026, Riscfruit Laboratory
@@ -74,7 +76,7 @@ class HP203B:
 
         if self.i2c is None:
             if not self._can_recover:
-                raise ValueError("pass an i2c object or both sda and scl")
+                raise ValueError("Error: No active sensor detected on i2c channels")
             self._bus_recover()  # also clears any junk left by a previous crashed run
         if self.addr is None:
             self.addr = self._detect()
@@ -145,8 +147,7 @@ class HP203B:
                 last = e
                 self._recover(attempt)
         raise HP203BError(
-            "HP203B not responding after %d tries (last error: %r). Check wiring, "
-            "3.3V, pull-ups (4.7k), CSB/address, and pin numbers." % (self._retries, last))
+            "Error: Sensor not responding after %d tries (last error: %r)." % (self._retries, last))
 
     def _detect(self):
         def go():
@@ -208,7 +209,7 @@ class HP203B:
     @osr.setter
     def osr(self, value):
         if not 0 <= value <= 5:
-            raise ValueError("osr must be OSR_4096 .. OSR_128 (0..5)")
+            raise ValueError("Error: OSR must be OSR_4096 .. OSR_128 (0..5)")
         self._osr = value
 
     def _measure(self, chnl, read_cmd, n):
@@ -271,15 +272,14 @@ def diagnose(sda=26, scl=27, i2c_id=1, freq=100000):
     try:
         dev = HP203B(sda=sda, scl=scl, i2c_id=i2c_id, freq=freq, reset=False, retries=2)
     except OSError as e:
-        print("No HP203B found:", e)
-        print("Check: 3.3V power, common GND, SDA/SCL not swapped, 4.7k pull-ups, CSB pin.")
+        print("Error: No HP203B sensor found, ", e)
         return
-    print("Found HP203B at 0x%02X" % dev.addr)
+    print("Found HP203B sensor at 0x%02X" % dev.addr)
     try:
         dev.reset()
         t, p = dev.read()
         print("Read OK: %.2f C, %.2f hPa (read style: %s)"
               % (t, p, "repeated START" if dev._rs else "STOP+START"))
     except OSError as e:
-        print("Device is on the bus but measurement failed:", e)
+        print("Error: Sensor is on the bus but measurement failed, ", e)
 
