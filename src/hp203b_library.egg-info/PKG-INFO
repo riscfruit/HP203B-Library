@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: hp203b-library
-Version: 1.0.0
+Version: 1.0.2
 Summary: MicroPython library for HP203B barometric pressure sensor
 Author-email: Tan Siret Akinci <tan@riscfruit.com>
 License-Expression: GPL-3.0-or-later
