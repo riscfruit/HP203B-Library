@@ -3,7 +3,7 @@ MicroPython library for HP203B barometric pressure sensor. Written to be used on
 
 ### Installation
 Install via pip inside your project directory:
-```python
+```bash
 pip install hp203b-library
 ```
 
