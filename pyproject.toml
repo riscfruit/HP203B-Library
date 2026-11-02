@@ -1,6 +1,6 @@
 [project]
 name = "hp203b-library"
-version = "1.0.2"
+version = "1.0.3"
 authors = [
   { name="Tan Siret Akinci", email="tan@riscfruit.com" },
 ]

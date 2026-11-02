@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: hp203b-library
-Version: 1.0.2
+Version: 1.0.3
 Summary: MicroPython library for HP203B barometric pressure sensor
 Author-email: Tan Siret Akinci <tan@riscfruit.com>
 License-Expression: GPL-3.0-or-later
@@ -17,6 +17,14 @@ Dynamic: license-file
 
 # HP203B-Library
 MicroPython library for HP203B barometric pressure sensor. Written to be used on [Riscfruit Pico2 Expansion Card](https://github.com/riscfruit/Pico2-Expansion-Card) to control [HP203B Sensor Module](https://github.com/riscfruit/HP203B-I2C-Sensor).
+
+### Installation
+Install via pip inside your project directory:
+```bash
+pip install hp203b-library
+```
+
+You can easily upload the library to your RP2040/RP2350 based embedded device (Riscfruit Pico2 Expansion Card, Raspberry Pi Pico, etc) by creating a lib directory inside and copying it there.
 
 ### Usage
 Import the library and initialize sensor and read all values:
