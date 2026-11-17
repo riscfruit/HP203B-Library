@@ -12,7 +12,7 @@ All rights reserved.
 import time
 from machine import I2C, Pin
 
-__version__ = "1.0.0"
+__version__ = "1.0.5"
 
 # Oversampling (decimation) rates
 OSR_4096 = 0

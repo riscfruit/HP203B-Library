@@ -13,13 +13,24 @@ You can easily upload the library to your RP2040/RP2350 based embedded device (R
 Import the library and initialize sensor and read all values:
 
 ```python
+import time
 from hp203b import HP203B, OSR_1024
 
-sensor = HP203B(sda=26, scl=27, i2c_id=1, freq=100000, osr=OSR_1024)
-t, p, alt = sensor.read_all()
+sensor = HP203B(sda=16, scl=17, i2c_id=0, freq=100000, osr=OSR_1024)
+print("HP203B at 0x%02X" % sensor.addr)
+
+while True:
+    t, p, alt = sensor.read_all()  # sea_level_hpa=... for local calibration
+    print("Temp: %.2f C   Pressure: %.2f hPa   Altitude: %.1f m" % (t, p, alt))
+    time.sleep(1)
 ```
 
-See [hp203b-sensor-reading.py](examples/hp203b-sensor-reading.py) for a loop sensor reading example.
+For diagnosis, run the following:
+```python
+from hp203b import diagnose; diagnose(16, 17, 0)
+```
+
+See [hp203b-sensor-reading.py](examples/hp203b-sensor-reading.py) for loop sensor reading example.
 
 ### Licensing
 Copyright (c) 2026, Riscfruit Laboratory. This software is developed and distributed with [GPL 3.0](LICENSE).
