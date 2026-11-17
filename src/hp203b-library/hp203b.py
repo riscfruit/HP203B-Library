@@ -262,7 +262,7 @@ class HP203B:
             pass
 
 
-def diagnose(sda=26, scl=27, i2c_id=1, freq=100000):
+def diagnose(sda=16, scl=17, i2c_id=0, freq=100000):
     # Print a quick health report for the bus. Run this when nothing works.
     s = Pin(sda, Pin.IN, Pin.PULL_UP)
     c = Pin(scl, Pin.IN, Pin.PULL_UP)
